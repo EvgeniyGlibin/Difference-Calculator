@@ -5,14 +5,14 @@ description = ""
 authors = ["Evgeniy Glibin <evgeniyglibin95@gmail.com>"]
 readme = "README.md"
 packages = [
-  { include = "difference_calculator" },
+  { include = "gendiff" },
 ]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 
 [tool.poetry.scripts]
-gendiff = "difference_calculator.scripts.gendiff:main"
+gendiff = "gendiff.scripts.gendiff:main"
 
 [build-system]
 requires = ["poetry-core"]
