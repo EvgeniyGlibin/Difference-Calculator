@@ -4,11 +4,15 @@ version = "0.1.0"
 description = ""
 authors = ["Evgeniy Glibin <evgeniyglibin95@gmail.com>"]
 readme = "README.md"
-packages = [{include = "hexlet_code"}]
+packages = [
+  { include = "difference_calculator" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 
+[tool.poetry.scripts]
+gendiff = "difference_calculator.scripts.gendiff:main"
 
 [build-system]
 requires = ["poetry-core"]
