@@ -1,6 +1,7 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/EvgeniyGlibin/python-project-50/workflows/hexlet-check/badge.svg)](https://github.com/EvgeniyGlibin/python-project-50/actions)
-
+###
+[![Actions Status](https://github.com/EvgeniyGlibin/python-project-50/workflows/gendiff/badge.svg)](https://github.com/EvgeniyGlibin/python-project-50/actions)
 ###
 [![Maintainability](https://api.codeclimate.com/v1/badges/ae288673048b7619f3a9/maintainability)](https://codeclimate.com/github/EvgeniyGlibin/python-project-50/maintainability)
 
