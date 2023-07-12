@@ -1,0 +1,19 @@
+
+name: gendiff-check
+# on – определяет события, которые запускают воркфлоу
+on: push
+jobs:
+  # build – произвольно выбранное имя задания
+  # их может быть больше одного
+  build:
+    # операционная система для работы воркфлоу
+    runs-on: ubuntu-latest
+    steps: # список шагов, которые надо выполнить
+      # экшен, выполняет какую-то задачу
+      # checkout – клонирует репозиторий
+      - uses: actions/checkout@v3
+      # run – произвольная bash-команда
+      - run: python -m pip install --upgrade pip
+             pip install flake8
+      - name: Lint with flake8
+        run: flake8 brain_games
