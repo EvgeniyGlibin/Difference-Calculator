@@ -18,6 +18,8 @@ jobs:
              pip install flake8
              pip install pytest
       - name: Run linter and pytest
-        run: |
+        run: 
              flake8 gendiff
+      - name: Run pytest
+        run:
              pytest
