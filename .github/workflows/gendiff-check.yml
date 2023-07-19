@@ -17,10 +17,7 @@ jobs:
              python -m pip install --upgrade pip
              pip install flake8
              pip install pytest
-      - name: Run linter and putest
+      - name: Run linter and pytest
         run: |
              flake8 gendiff
              pytest
-      # - name: Run pytest
-      #   run:
-      #        pytest
