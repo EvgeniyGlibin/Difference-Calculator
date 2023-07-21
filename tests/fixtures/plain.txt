@@ -1,0 +1,19 @@
+{
+|-string: value
+|-boolean: True
+|-number: 5
+}
+
+
+{
+|-|-string: value
+|-|-boolean: True
+|-|-number: 5
+}
+
+
+{
+ string: value
+ boolean: True
+ number: 5
+}
