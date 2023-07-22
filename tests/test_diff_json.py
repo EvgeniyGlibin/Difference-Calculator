@@ -1,6 +1,8 @@
-from gendiff.diff_files.diff_json import index_first_symbol, generate_diff, stringify
-import pytest
+from gendiff.diff_files.diff_json import index_first_symbol
+from gendiff.diff_files.diff_json import generate_diff
+from gendiff.diff_files.diff_json import stringify
 import os
+
 
 file1 = {
     "host": "hexlet.io",
@@ -16,11 +18,13 @@ file2 = {
     "host": "hexlet.io"
   }
 
+
 primitives = {
     "string": "value",
     "boolean": True,
     "number": 5,
 }
+
 
 nested = {
     "string": "value",
@@ -46,19 +50,6 @@ def test_index_first_symbol():
     assert index_first_symbol(' -  eXlet') == 4
 
 
-def test_generate_diff():
-    assert generate_diff(file1, file2) == {
-    "- follow": False,
-    "  host": "hexlet.io",
-    "- proxy": "123.234.53.22",
-    "- timeout": 50,
-    "+ timeout": 20,
-    "+ verbose": True,
-    }
-
-
-
-
 def get_fixture_path(file_name):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(current_dir, 'fixtures', file_name)
@@ -72,6 +63,8 @@ def read(file_path):
 
 plain_data = read(get_fixture_path('plain.txt')).rstrip().split('\n\n\n')
 nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
+gen_diff = generate_diff(file1, file2)
+flat_json_1 = read(get_fixture_path('flat_json.txt')).rstrip().split('\n\n\n')
 
 
 def test_default_values():
@@ -82,3 +75,15 @@ def test_default_values():
     assert stringify(nested, ' ') == nested_data[1]
     assert stringify(nested, '...') == nested_data[0]
     assert stringify(nested, '|-', 2) == nested_data[2]
+    assert stringify(gen_diff) == flat_json_1[0]
+
+
+def test_generate_diff():
+    assert generate_diff(file1, file2) == {
+        '- follow': False,
+        '  host': 'hexlet.io',
+        '- proxy': '123.234.53.22',
+        '- timeout': 50,
+        '+ timeout': 20,
+        '+ verbose': True,
+        }
