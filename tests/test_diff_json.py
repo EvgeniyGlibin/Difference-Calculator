@@ -80,10 +80,10 @@ def test_default_values():
 
 def test_generate_diff():
     assert generate_diff(file1, file2) == {
-        '- follow': False,
+        '- follow': 'false',
         '  host': 'hexlet.io',
         '- proxy': '123.234.53.22',
         '- timeout': 50,
         '+ timeout': 20,
-        '+ verbose': True,
+        '+ verbose': 'true',
         }
