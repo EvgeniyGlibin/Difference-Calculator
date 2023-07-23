@@ -8,6 +8,13 @@ def index_first_symbol(string):
             return index
 
 
+def boolean_to_string(dictionary):
+    for key in dictionary:
+        if isinstance(dictionary[key], bool):
+            dictionary[key] = str(dictionary[key]).lower()
+    return dictionary
+
+
 def generate_diff(file_path1, file_path2):
 
     diff_file = {}
@@ -25,6 +32,7 @@ def generate_diff(file_path1, file_path2):
         if i not in file_path1:
             diff_file[f'+ {i}'] = file_path2[i]
 
+    diff_file = boolean_to_string(diff_file)
     sorted_diff_file = sorted(
         diff_file.items(), key=lambda x: x[0][index_first_symbol(x[0])]
         )
