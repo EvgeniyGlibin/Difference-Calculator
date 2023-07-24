@@ -1,5 +1,6 @@
 import itertools
-
+from types import NoneType
+import json
 
 def index_first_symbol(string):
     for i in string:
@@ -10,8 +11,8 @@ def index_first_symbol(string):
 
 def boolean_to_string(dictionary):
     for key in dictionary:
-        if isinstance(dictionary[key], bool):
-            dictionary[key] = str(dictionary[key]).lower()
+        if isinstance(dictionary[key], NoneType | bool):
+            dictionary[key] = json.dumps(dictionary[key])
     return dictionary
 
 
