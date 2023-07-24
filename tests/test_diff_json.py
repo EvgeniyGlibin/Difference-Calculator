@@ -1,6 +1,7 @@
 from gendiff.diff_files.diff_json import index_first_symbol
 from gendiff.diff_files.diff_json import generate_diff
 from gendiff.diff_files.diff_json import stringify
+from gendiff.diff_files.diff_json import boolean_to_string
 import os
 
 
@@ -86,4 +87,22 @@ def test_generate_diff():
         '- timeout': 50,
         '+ timeout': 20,
         '+ verbose': 'true',
+        }
+
+
+def test_boolean_to_string():
+    assert boolean_to_string(primitives) == {
+        "string": "value",
+        "boolean": "true",
+        "number": 5,
+        }
+    assert boolean_to_string(file1) == {
+        "host": "hexlet.io",
+        "timeout": 50,
+        "proxy": "123.234.53.22",
+        "follow": "false",
+        }
+    assert boolean_to_string({"a": 1, "b": "aa"}) == {
+        "a": 1,
+        "b": "aa",
         }
