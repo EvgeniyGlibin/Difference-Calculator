@@ -9,4 +9,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ae288673048b7619f3a9/test_coverage)](https://codeclimate.com/github/EvgeniyGlibin/python-project-50/test_coverage)
 
 ### Сравнение плоских файлов (JSON)
-<a href="https://asciinema.org/a/596227" target="_blank"><img src="https://asciinema.org/a/596227.svg" /></a>
+<a href="https://asciinema.org/a/598716" target="_blank"><img src="https://asciinema.org/a/598716.svg" /></a>
+
+### Сравнение плоских файлов (YAML)
+<a href="https://asciinema.org/a/598717" target="_blank"><img src="https://asciinema.org/a/598717.svg" /></a>
