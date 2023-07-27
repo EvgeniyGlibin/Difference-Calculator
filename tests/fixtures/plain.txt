@@ -1,19 +1,19 @@
 {
-|-string: value
-|-boolean: True
-|-number: 5
+|-|-|-|-string: value
+|-|-|-|-boolean: true
+|-|-|-|-number: 5
 }
 
 
 {
 |-|-string: value
-|-|-boolean: True
+|-|-boolean: true
 |-|-number: 5
 }
 
 
 {
- string: value
- boolean: True
- number: 5
+    string: value
+    boolean: true
+    number: 5
 }
