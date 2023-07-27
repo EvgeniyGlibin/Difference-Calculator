@@ -61,9 +61,10 @@ def generate_diff(data1, data2):
                 result[f'- {key}'] = current_data1[key]
             elif current_data1[key] == current_data2[key]:
                 result[f'  {key}'] = current_data1[key]
-            elif isinstance(current_data1[key], dict) is True and isinstance(current_data2[key], dict) is True:
+            elif isinstance(current_data1[key], dict) is True and isinstance(
+                    current_data2[key], dict) is True:
                 children = iter_(current_data1[key], current_data2[key])
-                result[f'  {key}'] =  children
+                result[f'  {key}'] = children
             else:
                 result[f'- {key}'] = current_data1[key]
                 result[f'+ {key}'] = current_data2[key]
