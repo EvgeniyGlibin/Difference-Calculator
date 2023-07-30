@@ -35,7 +35,8 @@ if args.second_file.endswith(".json"):
     ))
 elif args.second_file.endswith((".yaml", ".yml")):
     second_file = yaml.load(open(
-        '/home/user/python-project-50/gendiff/file22.yaml'), Loader=SafeLoader
+        '/home/user/python-project-50/tests/fixtures/file22.yaml'
+    ), Loader=SafeLoader
     )
 else:
     print("Нет такого файла")
