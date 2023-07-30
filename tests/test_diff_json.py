@@ -1,5 +1,5 @@
 from gendiff.diff_files.diff_json import generate_diff
-from gendiff.diff_files.diff_json import stringify
+from gendiff.diff_files.stylish import stringify
 import os
 
 

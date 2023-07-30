@@ -3,7 +3,8 @@
 
 import argparse
 import json
-from gendiff.diff_files.diff_json import generate_diff, stringify
+from gendiff.diff_files.diff_json import generate_diff
+from gendiff.diff_files.stylish import stringify
 import yaml
 from yaml.loader import SafeLoader
 
