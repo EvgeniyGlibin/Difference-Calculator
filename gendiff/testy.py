@@ -8,7 +8,7 @@ file1 = {
     "timeout": 50,
     "proxy": "123.234.53.22",
     "follow": False
-  }
+}
 
 
 file2 = {
@@ -19,62 +19,62 @@ file2 = {
 
 
 file3 = {
-  "common": {
-    "setting1": "Value 1",
-    "setting2": 200,
-    "setting3": True,
-    "setting6": {
-      "key": "value",
-      "doge": {
-        "wow": "",
-      }
+    "common": {
+        "setting1": "Value 1",
+        "setting2": 200,
+        "setting3": True,
+        "setting6": {
+            "key": "value",
+            "doge": {
+                "wow": "",
+            }
+        }
+    },
+    "group1": {
+        "baz": "bas",
+        "foo": "bar",
+        "nest": {
+            "key": "value",
+        }
+    },
+    "group2": {
+        "abc": 12345,
+        "deep": {
+            "id": 45,
+        }
     }
-  },
-  "group1": {
-    "baz": "bas",
-    "foo": "bar",
-    "nest": {
-      "key": "value",
-    }
-  },
-  "group2": {
-    "abc": 12345,
-    "deep": {
-      "id": 45,
-    }
-  }
 }
 
 file4 = {
-  "common": {
-    "follow": False,
-    "setting1": "Value 1",
-    "setting3": None,
-    "setting4": "blah blah",
-    "setting5": {
-      "key5": "value5",
+    "common": {
+        "follow": False,
+        "setting1": "Value 1",
+        "setting3": None,
+        "setting4": "blah blah",
+        "setting5": {
+            "key5": "value5",
+        },
+        "setting6": {
+            "key": "value",
+            "ops": "vops",
+            "doge": {
+                "wow": "so much",
+            }
+        }
     },
-    "setting6": {
-      "key": "value",
-      "ops": "vops",
-      "doge": {
-        "wow": "so much",
-      }
+    "group1": {
+        "foo": "bar",
+        "baz": "bars",
+        "nest": "str",
+    },
+    "group3": {
+        "deep": {
+            "id": {
+                "number": 45,
+            }
+        },
+        "fee": 100500,
     }
-  },
-  "group1": {
-    "foo": "bar",
-    "baz": "bars",
-    "nest": "str",
-  },
-  "group3": {
-    "deep": {
-      "id": {
-        "number": 45,
-      }
-    },
-    "fee": 100500,
-  }
 }
 
 
@@ -104,6 +104,7 @@ def generate_diff(data1, data2):
     x = iter_(data1, data2)
     return x
 
+
 def stringify(value, replacer=' ', spaces_count=4):
 
     def iter_(current_value, depth):
@@ -127,34 +128,32 @@ def stringify(value, replacer=' ', spaces_count=4):
 
 
 def get_plain_formater(value):
-    lines = []
-    keys = list(value.keys())
-    count = 0
-    for i in range(len(keys)): #лучше через ваил
-        # print(keys[i])
-        if str(keys[i]).startswith('+ '):
-            lines.append(f'Property {str(keys[i])} added')
-            
-        elif str(keys[i]).startswith('- '):
-            print(keys[i])
-            
-            if str(keys[i])[2:] == str(keys[i + 1])[2:]:
-                print('Пришло')
-                lines.append(f'Property {str(keys[i])} изменилось значение')
-                continue
+
+    def iter_(current_value):
+        lines = []
+        keys = current_value.keys()
+
+        for key in keys:
+            key = str(key)
+            if key.startswith('+ ') and '- ' + key[2:] not in keys:
+                lines.append(f"Property '{key[2:]}'"
+                             f" was added with value: {current_value[key]}")
+            elif key.startswith('- ') and '+ ' + key[2:] not in keys:
+                lines.append(f"Property '{key[2:]}' was removed")
+            elif key.startswith('- ') and '+ ' + key[2:] in keys:
+                lines.append(f"Property '{key[2:]}' was updated."
+                             f" From {current_value[key]}"
+                             f" to {current_value['+ ' + key[2:]]}")
+            elif key.startswith('  ') and isinstance(
+                    current_value[key], dict) is True:
+                lines.append(iter_(current_value[key]))
             else:
-                lines.append(f'Property {str(keys[i])} удалилось')
-        
-    result = itertools.chain(lines)
-    return '\n'.join(result)
-                
-                
-        
+                continue
+        result = itertools.chain(lines)
+        return '\n'.join(result)
 
-                
-    
-    
+    return iter_(value)
 
-diff = generate_diff(file1, file2)
-print(diff)
+
+diff = generate_diff(file3, file4)
 print(get_plain_formater(diff))
