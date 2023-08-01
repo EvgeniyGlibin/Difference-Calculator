@@ -101,8 +101,8 @@ def generate_diff(data1, data2):
 
         return result
 
-    x = iter_(data1, data2)
-    return x
+    result = iter_(data1, data2)
+    return result
 
 
 def stringify(value, replacer=' ', spaces_count=4):
@@ -132,21 +132,27 @@ def get_plain_formater(value):
     def iter_(current_value, path):
         lines = []
         keys = current_value.keys()
-        for key in keys:
+        for key, val in current_value.items():
             key = str(key)
-            if key.startswith('+ ') and '- ' + key[2:] not in keys:
+            if isinstance(val, NoneType | bool):
+                val = json.dumps(val)
+            if key.startswith('  ') and isinstance(
+                    val, dict) is True:
+                new_path = path + key[2:] + "."
+                lines.append(iter_(val, new_path))
+            elif key.startswith('+ ') and '- ' + key[2:] not in keys:
                 lines.append(f"Property '{path + key[2:]}'"
-                             f" was added with value: '{current_value[key]}'")
+                             f" was added with value: {val}")
             elif key.startswith('- ') and '+ ' + key[2:] not in keys:
                 lines.append(f"Property '{path + key[2:]}' was removed")
             elif key.startswith('- ') and '+ ' + key[2:] in keys:
+                if isinstance(current_value['+ ' + key[2:]], NoneType | bool):
+                    current_value['+ ' + key[2:]] = json.dumps(
+                        current_value['+ ' + key[2:]])
                 lines.append(f"Property '{path + key[2:]}' was updated."
-                             f" From '{current_value[key]}'"
-                             f" to '{current_value['+ ' + key[2:]]}'")
-            elif key.startswith('  ') and isinstance(
-                    current_value[key], dict) is True:
-                new_path = path + key[2:] + "."
-                lines.append(iter_(current_value[key], new_path))
+                             f" From {val}"
+                             f" to {current_value['+ ' + key[2:]]}")
+
         result = itertools.chain(lines)
         return '\n'.join(result)
 
@@ -154,6 +160,11 @@ def get_plain_formater(value):
 
 
 diff = generate_diff(file3, file4)
-print(diff)
+# print(diff)
 # print(stringify(diff))
 print(get_plain_formater(diff))
+# keys = diff.keys()
+# values = diff.values()
+# print(keys)
+# print()
+# print(values)
