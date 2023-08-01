@@ -129,31 +129,35 @@ def stringify(value, replacer=' ', spaces_count=4):
 
 def get_plain_formater(value):
 
-    def iter_(current_value):
+    def iter_(current_value, path):
         lines = []
         keys = current_value.keys()
-
         for key in keys:
             key = str(key)
             if key.startswith('+ ') and '- ' + key[2:] not in keys:
-                lines.append(f"Property '{key[2:]}'"
+                new_path = path + key[2:]
+                lines.append(f"Property '{new_path}'"
                              f" was added with value: {current_value[key]}")
             elif key.startswith('- ') and '+ ' + key[2:] not in keys:
-                lines.append(f"Property '{key[2:]}' was removed")
+                new_path = path + key[2:]
+                lines.append(f"Property '{new_path}' was removed")
             elif key.startswith('- ') and '+ ' + key[2:] in keys:
-                lines.append(f"Property '{key[2:]}' was updated."
+                new_path = path + key[2:]
+                lines.append(f"Property '{new_path}' was updated."
                              f" From {current_value[key]}"
                              f" to {current_value['+ ' + key[2:]]}")
             elif key.startswith('  ') and isinstance(
                     current_value[key], dict) is True:
-                lines.append(iter_(current_value[key]))
+                new_path = key[2:] + "."
+                lines.append(iter_(current_value[key], new_path))
             else:
                 continue
         result = itertools.chain(lines)
         return '\n'.join(result)
 
-    return iter_(value)
+    return iter_(value, '')
 
 
 diff = generate_diff(file3, file4)
+print(diff)
 print(get_plain_formater(diff))
