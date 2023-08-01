@@ -135,23 +135,18 @@ def get_plain_formater(value):
         for key in keys:
             key = str(key)
             if key.startswith('+ ') and '- ' + key[2:] not in keys:
-                new_path = path + key[2:]
-                lines.append(f"Property '{new_path}'"
-                             f" was added with value: {current_value[key]}")
+                lines.append(f"Property '{path + key[2:]}'"
+                             f" was added with value: '{current_value[key]}'")
             elif key.startswith('- ') and '+ ' + key[2:] not in keys:
-                new_path = path + key[2:]
-                lines.append(f"Property '{new_path}' was removed")
+                lines.append(f"Property '{path + key[2:]}' was removed")
             elif key.startswith('- ') and '+ ' + key[2:] in keys:
-                new_path = path + key[2:]
-                lines.append(f"Property '{new_path}' was updated."
-                             f" From {current_value[key]}"
-                             f" to {current_value['+ ' + key[2:]]}")
+                lines.append(f"Property '{path + key[2:]}' was updated."
+                             f" From '{current_value[key]}'"
+                             f" to '{current_value['+ ' + key[2:]]}'")
             elif key.startswith('  ') and isinstance(
                     current_value[key], dict) is True:
-                new_path = key[2:] + "."
+                new_path = path + key[2:] + "."
                 lines.append(iter_(current_value[key], new_path))
-            else:
-                continue
         result = itertools.chain(lines)
         return '\n'.join(result)
 
@@ -160,4 +155,5 @@ def get_plain_formater(value):
 
 diff = generate_diff(file3, file4)
 print(diff)
+# print(stringify(diff))
 print(get_plain_formater(diff))
