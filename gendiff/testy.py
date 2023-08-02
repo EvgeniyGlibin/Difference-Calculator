@@ -127,6 +127,16 @@ def stringify(value, replacer=' ', spaces_count=4):
     return iter_(value, 0)
 
 
+def get_value(value):
+    if isinstance(value, NoneType | bool):
+        value = json.dumps(value)
+    elif isinstance(value, str):
+        value = f"'{value}'"
+    elif isinstance(value, dict):
+        value = "[complex value]"
+    return value
+
+
 def get_plain_formater(value):
 
     def iter_(current_value, path):
@@ -134,24 +144,21 @@ def get_plain_formater(value):
         keys = current_value.keys()
         for key, val in current_value.items():
             key = str(key)
-            if isinstance(val, NoneType | bool):
-                val = json.dumps(val)
+            sort_val = get_value(val)
             if key.startswith('  ') and isinstance(
                     val, dict) is True:
                 new_path = path + key[2:] + "."
                 lines.append(iter_(val, new_path))
             elif key.startswith('+ ') and '- ' + key[2:] not in keys:
                 lines.append(f"Property '{path + key[2:]}'"
-                             f" was added with value: {val}")
+                             f" was added with value: {sort_val}")
             elif key.startswith('- ') and '+ ' + key[2:] not in keys:
                 lines.append(f"Property '{path + key[2:]}' was removed")
             elif key.startswith('- ') and '+ ' + key[2:] in keys:
-                if isinstance(current_value['+ ' + key[2:]], NoneType | bool):
-                    current_value['+ ' + key[2:]] = json.dumps(
-                        current_value['+ ' + key[2:]])
+                sort_val_2 = get_value(current_value['+ ' + key[2:]])
                 lines.append(f"Property '{path + key[2:]}' was updated."
-                             f" From {val}"
-                             f" to {current_value['+ ' + key[2:]]}")
+                             f" From {sort_val}"
+                             f" to {sort_val_2}")
 
         result = itertools.chain(lines)
         return '\n'.join(result)
