@@ -45,6 +45,7 @@ else:
 format_name = get_plain_formater
 format_name = stringify
 
+
 def main():
     diff = generate_diff(first_file, second_file, format_name)
     print(diff)
