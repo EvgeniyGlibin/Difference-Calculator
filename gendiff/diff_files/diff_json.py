@@ -1,4 +1,4 @@
-def generate_diff(data1, data2):
+def generate_diff(data1, data2, format_name):
 
     def iter_(current_data1, current_data2):
 
@@ -21,4 +21,4 @@ def generate_diff(data1, data2):
 
         return result
 
-    return iter_(data1, data2)
+    return format_name(iter_(data1, data2))
