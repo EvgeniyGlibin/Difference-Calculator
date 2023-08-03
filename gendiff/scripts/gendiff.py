@@ -5,6 +5,7 @@ import argparse
 import json
 from gendiff.diff_files.diff_json import generate_diff
 from gendiff.diff_files.stylish import stringify
+from gendiff.diff_files.plain import get_plain_formater
 import yaml
 from yaml.loader import SafeLoader
 
@@ -41,11 +42,12 @@ elif args.second_file.endswith((".yaml", ".yml")):
     )
 else:
     print("Нет такого файла")
-
+format_name = get_plain_formater
+format_name = stringify
 
 def main():
-    diff = generate_diff(first_file, second_file)
-    print(stringify(diff))
+    diff = generate_diff(first_file, second_file, format_name)
+    print(diff)
 
 
 if __name__ == "__main__":
