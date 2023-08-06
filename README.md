@@ -19,3 +19,6 @@
 
 ### Выбор формата
 <a href="https://asciinema.org/a/600821" target="_blank"><img src="https://asciinema.org/a/600821.svg" /></a>
+
+### Выбор формата JSON
+<a href="https://asciinema.org/a/600823" target="_blank"><img src="https://asciinema.org/a/600823.svg" /></a>
