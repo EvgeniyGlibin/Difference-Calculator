@@ -14,8 +14,14 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument('first_file')
 parser.add_argument('second_file')
-parser.add_argument('-f', '--format', help='set format of output')
+parser.add_argument('-f', '--format', default='stylish', help='set format of output')
 args = parser.parse_args()
+
+
+if args.format == 'plain':
+    format_name = get_plain_formater
+else:
+    format_name = stringify
 
 
 if args.first_file.endswith(".json"):
@@ -42,8 +48,6 @@ elif args.second_file.endswith((".yaml", ".yml")):
     )
 else:
     print("Нет такого файла")
-format_name = get_plain_formater
-format_name = stringify
 
 
 def main():
