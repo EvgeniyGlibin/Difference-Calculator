@@ -16,3 +16,6 @@
 
 ### Сравнение вложенных структур (JSON, YAML)
 <a href="https://asciinema.org/a/599806" target="_blank"><img src="https://asciinema.org/a/599806.svg" /></a>
+
+### Выбор формата
+<a href="https://asciinema.org/a/600821" target="_blank"><img src="https://asciinema.org/a/600821.svg" /></a>
