@@ -1,4 +1,4 @@
-from gendiff.diff_files.diff_json import generate_diff
+from gendiff.diff_files.gendiff import generate_diff
 from gendiff.diff_files.stylish import stringify
 from gendiff.diff_files.plain import get_plain_formater
 import os
