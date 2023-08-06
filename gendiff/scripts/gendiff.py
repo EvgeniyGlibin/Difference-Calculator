@@ -19,10 +19,12 @@ parser.add_argument('-f', '--format', default='stylish',
 args = parser.parse_args()
 
 
-if args.format == 'plain':
-    format_name = get_plain_formater
-else:
+if args.format == 'stylish':
     format_name = stringify
+elif args.format == 'plain':
+    format_name = get_plain_formater
+elif args.format == 'json':
+    format_name = json.dumps
 
 
 if args.first_file.endswith(".json"):
