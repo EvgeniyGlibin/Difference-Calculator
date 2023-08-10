@@ -1,4 +1,4 @@
-from stylish import stringify
+from gendiff.diff_files.stylish import stringify
 
 
 def generate_diff(data1, data2, format_name=stringify):
