@@ -1,4 +1,7 @@
-def generate_diff(data1, data2, format_name):
+from stylish import stringify
+
+
+def generate_diff(data1, data2, format_name=stringify):
 
     def iter_(current_data1, current_data2):
 
