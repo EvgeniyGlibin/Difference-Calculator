@@ -1,54 +1,24 @@
 #!/usr/bin/env python3
+from gendiff.cli import get_parser
+from gendiff.diff_generator import generate_diff
 
 
-import argparse
-import json
-from gendiff.diff_files.gener_diff import generate_diff
-from gendiff.diff_files.stylish import stringify
-from gendiff.diff_files.plain import get_plain_formater
-import yaml
-from yaml.loader import SafeLoader
-
-parser = argparse.ArgumentParser(
-    description='Compares two configuration files and shows a difference.'
-)
-parser.add_argument('first_file')
-parser.add_argument('second_file')
-parser.add_argument('-f', '--format', default='stylish',
-                    help='set format of output')
-args = parser.parse_args()
-
-
-if args.format == 'stylish':
-    format_name = stringify
-elif args.format == 'plain':
-    format_name = get_plain_formater
-elif args.format == 'json':
-    format_name = json.dumps
+args, format_name = get_parser()
+file_path1 = '/home/user/python-project-50/gendiff/file1'
+file_path2 = '/home/user/python-project-50/gendiff/file2'
 
 
 if args.first_file.endswith(".json"):
-    first_file = json.load(open(
-        '/home/user/python-project-50/tests/fixtures/file11.json'
-    ))
+    first_file = f'{file_path1}.json'
 elif args.first_file.endswith((".yaml", ".yml")):
-    first_file = yaml.load(open(
-        '/home/user/python-project-50/tests/fixtures/file11.yaml'
-    ), Loader=SafeLoader
-    )
+    first_file = f'{file_path1}.yaml'
 else:
     print("Нет такого файла")
 
-
 if args.second_file.endswith(".json"):
-    second_file = json.load(open(
-        '/home/user/python-project-50/tests/fixtures/file22.json'
-    ))
+    second_file = f'{file_path2}.json'
 elif args.second_file.endswith((".yaml", ".yml")):
-    second_file = yaml.load(open(
-        '/home/user/python-project-50/tests/fixtures/file22.yaml'
-    ), Loader=SafeLoader
-    )
+    second_file = f'{file_path2}.yaml'
 else:
     print("Нет такого файла")
 
