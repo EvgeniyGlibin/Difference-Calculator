@@ -1,4 +1,4 @@
-from gendiff.diff_files.gener_diff import generate_diff
+from gendiff import generate_diff
 from gendiff.diff_files.stylish import stringify
 from gendiff.diff_files.plain import get_plain_formater
 import os
@@ -152,6 +152,13 @@ nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
 flat_json_1 = read(get_fixture_path('flat_json.txt')).rstrip().split('\n\n\n')
 
 
+file_path_yaml1 = get_fixture_path('file1.yaml')
+file_path_yaml2 = get_fixture_path('file2.yaml')
+file_path_json1 = get_fixture_path('file1.json')
+file_path_json2 = get_fixture_path('file2.json')
+result_stylish = read(get_fixture_path('result_stylish'))
+result_plain = read(get_fixture_path('result_plain'))
+
 def test_default_values():
     assert stringify(primitives) == plain_data[2]
     assert stringify(primitives, '|-') == plain_data[0]
@@ -166,12 +173,7 @@ def test_get_plain_formater():
 
 
 def test_generate_diff():
-    assert generate_diff(file1, file2, stringify) == "{\n" \
-        "  - follow: false\n" \
-        "    host: hexlet.io\n" \
-        "  - proxy: 123.234.53.22\n" \
-        "  - timeout: 50\n" \
-        "  + timeout: 20\n" \
-        "  + verbose: true\n" \
-        "}"
-    assert generate_diff(file3, file4, get_plain_formater) == plain_nested
+    assert generate_diff(file_path_json1, file_path_json2, stringify) == result_stylish
+    assert generate_diff(file_path_yaml1, file_path_yaml2) == result_stylish
+    assert generate_diff(file_path_json1, file_path_yaml2, get_plain_formater) == result_plain
+   
