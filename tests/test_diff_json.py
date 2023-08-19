@@ -159,6 +159,7 @@ file_path_json2 = get_fixture_path('file2.json')
 result_stylish = read(get_fixture_path('result_stylish'))
 result_plain = read(get_fixture_path('result_plain'))
 
+
 def test_default_values():
     assert stringify(primitives) == plain_data[2]
     assert stringify(primitives, '|-') == plain_data[0]
@@ -173,7 +174,9 @@ def test_get_plain_formater():
 
 
 def test_generate_diff():
-    assert generate_diff(file_path_json1, file_path_json2, stringify) == result_stylish
+    assert generate_diff(file_path_json1,
+                         file_path_json2, stringify
+                         ) == result_stylish
     assert generate_diff(file_path_yaml1, file_path_yaml2) == result_stylish
-    assert generate_diff(file_path_json1, file_path_yaml2, get_plain_formater) == result_plain
-   
+    assert generate_diff(file_path_json1,
+                         file_path_yaml2, get_plain_formater) == result_plain
