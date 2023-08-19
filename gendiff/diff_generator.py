@@ -2,6 +2,7 @@ import json
 import yaml
 from yaml.loader import SafeLoader
 from gendiff.diff_files.stylish import stringify
+from gendiff.diff_files.plain import get_plain_formater
 from gendiff.diff_files.gener_diff import generate_result
 
 
@@ -16,4 +17,9 @@ def generate_diff(file_path1, file_path2, format_name=stringify):
         second_file = yaml.load(open(file_path2), Loader=SafeLoader)
 
     result = generate_result(first_file, second_file)
+    if format_name == 'stylish':
+        format_name = stringify
+    elif format_name == 'plain':
+        format_name = get_plain_formater
+    
     return format_name(result)
