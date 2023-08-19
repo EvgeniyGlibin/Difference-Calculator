@@ -22,7 +22,7 @@ def generate_diff(file_path1, file_path2, format_name=stringify):
         format_name = stringify
     elif format_name == 'plain':
         format_name = get_plain_formater
-    elif format_name == 'plain':
+    elif format_name == 'json':
         format_name = json.dumps
 
     return format_name(result)
