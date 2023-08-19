@@ -1,6 +1,7 @@
-from gendiff import generate_diff
+
 from gendiff.diff_files.stylish import stringify
 from gendiff.diff_files.plain import get_plain_formater
+from gendiff.diff_generator import generate_diff
 import os
 
 
@@ -177,6 +178,6 @@ def test_generate_diff():
     assert generate_diff(file_path_json1,
                          file_path_json2, stringify
                          ) == result_stylish
-    # assert generate_diff(file_path_yaml1, file_path_yaml2) == result_stylish
-    # assert generate_diff(file_path_json1,
-    #                      file_path_yaml2, get_plain_formater) == result_plain
+    assert generate_diff(file_path_yaml1, file_path_yaml2) == result_stylish
+    assert generate_diff(file_path_json1,
+                         file_path_yaml2, get_plain_formater) == result_plain
