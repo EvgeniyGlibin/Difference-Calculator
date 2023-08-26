@@ -153,12 +153,7 @@ nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
 flat_json_1 = read(get_fixture_path('flat_json.txt')).rstrip().split('\n\n\n')
 
 
-file_path_yaml1 = get_fixture_path('file1.yaml')
-file_path_yaml2 = get_fixture_path('file2.yaml')
-file_path_json1 = get_fixture_path('file1.json')
-file_path_json2 = get_fixture_path('file2.json')
-result_stylish = read(get_fixture_path('result_stylish'))
-result_plain = read(get_fixture_path('result_plain'))
+
 
 
 def test_default_values():
@@ -172,6 +167,14 @@ def test_default_values():
 
 def test_get_plain_formater():
     assert get_plain_formater(file_diff) == plain
+
+
+file_path_json1 = get_fixture_path('file1.json')
+file_path_json2 = get_fixture_path('file2.json')
+file_path_yaml1 = get_fixture_path('file1.yaml')
+file_path_yaml2 = get_fixture_path('file2.yaml')
+result_stylish = read(get_fixture_path('result_stylish'))
+result_plain = read(get_fixture_path('result_plain'))
 
 
 def test_generate_diff():
