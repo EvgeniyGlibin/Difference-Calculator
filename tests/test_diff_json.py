@@ -153,9 +153,6 @@ nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
 flat_json_1 = read(get_fixture_path('flat_json.txt')).rstrip().split('\n\n\n')
 
 
-
-
-
 def test_default_values():
     assert stringify(primitives) == plain_data[2]
     assert stringify(primitives, '|-') == plain_data[0]
