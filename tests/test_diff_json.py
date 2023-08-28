@@ -35,13 +35,6 @@ file_diff = {
 }
 
 
-plain = "Property 'follow' was removed\n" \
-    "Property 'proxy' was removed\n" \
-    "Property 'timeout' was updated. From 50 to 20\n" \
-    "Property 'verbose' was added with value: true" \
-
-
-
 def get_fixture_path(file_name):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(current_dir, 'fixtures', file_name)
@@ -54,8 +47,6 @@ def read(file_path):
 
 
 nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
-flat_json_1 = read(get_fixture_path('flat_json.txt')).rstrip().split('\n\n\n')
-
 
 cases = [
     ('.', 3, 0),
@@ -68,6 +59,9 @@ cases = [
 def test_stringify(replacer, space_count, case_index):
     expected = nested_data[case_index]
     assert stringify(nested, replacer, space_count) == expected
+
+
+plain = read(get_fixture_path('plain'))
 
 
 def test_get_plain_formater():
@@ -96,7 +90,3 @@ result_format = [result_stylish, result_plain, result_stylish]
 def test_generate_diff(file_path1, file_path2, format, format_index):
     result = result_format[format_index]
     assert generate_diff(file_path1, file_path2, format) == result
-    # assert generate_diff(file_path_yaml1,
-    #                      file_path_yaml2, 'stylish') == result_stylish
-    # assert generate_diff(file_path_yaml1,
-    #                      file_path_yaml2, 'plain') == result_plain
