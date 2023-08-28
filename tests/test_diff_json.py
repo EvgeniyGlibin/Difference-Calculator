@@ -61,11 +61,11 @@ def test_stringify(replacer, space_count, case_index):
     assert stringify(nested, replacer, space_count) == expected
 
 
-plain = read(get_fixture_path('plain'))
+plain_data = read(get_fixture_path('plain'))
 
 
 def test_get_plain_formater():
-    assert get_plain_formater(file_diff) == plain
+    assert get_plain_formater(file_diff) == plain_data
 
 
 file_path_json1 = get_fixture_path('file1.json')
