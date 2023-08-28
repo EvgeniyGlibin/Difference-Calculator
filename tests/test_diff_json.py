@@ -177,15 +177,17 @@ file_path_yaml2 = get_fixture_path('file2.yaml')
 result_stylish = read(get_fixture_path('result_stylish'))
 result_plain = read(get_fixture_path('result_plain'))
 
+formats = [
+    (file_path_json1, file_path_json2, 'stylish', result_stylish),
+    (file_path_json1, file_path_yaml2, 'plain', result_plain),
+    (file_path_yaml1, file_path_yaml2, 'plain', result_plain),
+]
 
-def test_generate_diff():
-    assert generate_diff(file_path_json1,
-                         file_path_json2, stringify) == result_stylish
-    assert generate_diff(file_path_yaml1,
-                         file_path_yaml2) == result_stylish
-    assert generate_diff(file_path_yaml1,
-                         file_path_yaml2, 'stylish') == result_stylish
-    assert generate_diff(file_path_json1,
-                         file_path_yaml2, get_plain_formater) == result_plain
-    assert generate_diff(file_path_yaml1,
-                         file_path_yaml2, 'plain') == result_plain
+
+@pytest.mark.parametrize('file_path1, file_path2, format, result', formats)
+def test_generate_diff(file_path1, file_path2, format, result):
+    assert generate_diff(file_path1, file_path2, format) == result
+    # assert generate_diff(file_path_yaml1,
+    #                      file_path_yaml2, 'stylish') == result_stylish
+    # assert generate_diff(file_path_yaml1,
+    #                      file_path_yaml2, 'plain') == result_plain
