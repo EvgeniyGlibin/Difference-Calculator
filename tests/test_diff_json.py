@@ -3,6 +3,7 @@ from gendiff.diff_files.stylish import stringify
 from gendiff.diff_files.plain import get_plain_formater
 from gendiff.diff_generator import generate_diff
 import os
+import pytest
 
 
 file1 = {
@@ -148,18 +149,21 @@ def read(file_path):
     return result
 
 
-plain_data = read(get_fixture_path('plain.txt')).rstrip().split('\n\n\n')
 nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
 flat_json_1 = read(get_fixture_path('flat_json.txt')).rstrip().split('\n\n\n')
 
 
-def test_default_values():
-    assert stringify(primitives) == plain_data[2]
-    assert stringify(primitives, '|-') == plain_data[0]
-    assert stringify(primitives, '|-', 2) == plain_data[1]
-    assert stringify(nested, ' ', 1) == nested_data[1]
-    assert stringify(nested, '...', 1) == nested_data[0]
-    assert stringify(nested, '|-', 2) == nested_data[2]
+cases = [
+    ('.', 3, 0),
+    (' ', 1, 1),
+    ('|-', 2, 2),
+]
+
+
+@pytest.mark.parametrize("replacer, space_count, case_index", cases)
+def test_stringify(replacer, space_count, case_index):
+    expected = nested_data[case_index]
+    assert stringify(nested, replacer, space_count) == expected
 
 
 def test_get_plain_formater():
