@@ -6,89 +6,6 @@ import os
 import pytest
 
 
-file1 = {
-    "host": "hexlet.io",
-    "timeout": 50,
-    "proxy": "123.234.53.22",
-    "follow": False
-}
-
-
-file2 = {
-    "timeout": 20,
-    "verbose": True,
-    "host": "hexlet.io"
-}
-
-
-file3 = {
-    "common": {
-        "setting1": "Value 1",
-        "setting2": 200,
-        "setting3": True,
-        "setting6": {
-            "key": "value",
-            "doge": {
-                "wow": "",
-            }
-        }
-    },
-    "group1": {
-        "baz": "bas",
-        "foo": "bar",
-        "nest": {
-            "key": "value",
-        }
-    },
-    "group2": {
-        "abc": 12345,
-        "deep": {
-            "id": 45,
-        }
-    }
-}
-
-
-file4 = {
-    "common": {
-        "follow": False,
-        "setting1": "Value 1",
-        "setting3": None,
-        "setting4": "blah blah",
-        "setting5": {
-            "key5": "value5",
-        },
-        "setting6": {
-            "key": "value",
-            "ops": "vops",
-            "doge": {
-                "wow": "so much",
-            }
-        }
-    },
-    "group1": {
-        "foo": "bar",
-        "baz": "bars",
-        "nest": "str",
-    },
-    "group3": {
-        "deep": {
-            "id": {
-                "number": 45,
-            }
-        },
-        "fee": 100500,
-    }
-}
-
-
-primitives = {
-    "string": "value",
-    "boolean": True,
-    "number": 5,
-}
-
-
 nested = {
     "string": "value",
     "boolean": True,
@@ -122,19 +39,6 @@ plain = "Property 'follow' was removed\n" \
     "Property 'proxy' was removed\n" \
     "Property 'timeout' was updated. From 50 to 20\n" \
     "Property 'verbose' was added with value: true" \
-
-
-plain_nested = "Property 'common.follow' was added with value: false\n" \
-    "Property 'common.setting2' was removed\n" \
-    "Property 'common.setting3' was updated. From true to null\n" \
-    "Property 'common.setting4' was added with value: 'blah blah'\n" \
-    "Property 'common.setting5' was added with value: [complex value]\n" \
-    "Property 'common.setting6.doge.wow' was updated. From '' to 'so much'\n" \
-    "Property 'common.setting6.ops' was added with value: 'vops'\n" \
-    "Property 'group1.baz' was updated. From 'bas' to 'bars'\n" \
-    "Property 'group1.nest' was updated. From [complex value] to 'str'\n" \
-    "Property 'group2' was removed\n" \
-    "Property 'group3' was added with value: [complex value]" \
 
 
 
@@ -176,6 +80,7 @@ file_path_yaml1 = get_fixture_path('file1.yaml')
 file_path_yaml2 = get_fixture_path('file2.yaml')
 result_stylish = read(get_fixture_path('result_stylish'))
 result_plain = read(get_fixture_path('result_plain'))
+
 
 formats = [
     (file_path_json1, file_path_json2, 'stylish', 0),
