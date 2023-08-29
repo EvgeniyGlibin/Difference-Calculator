@@ -79,7 +79,7 @@ result_plain = read(get_fixture_path('result_plain'))
 formats = [
     (file_path_json1, file_path_json2, 'stylish', 0),
     (file_path_json1, file_path_yaml2, 'plain', 1),
-    (file_path_yaml1, file_path_yaml2, 'stylish', 0),
+    (file_path_yaml1, file_path_yaml2, 'stylish', 1),
 ]
 result_format = [result_stylish, result_plain, result_stylish]
 
