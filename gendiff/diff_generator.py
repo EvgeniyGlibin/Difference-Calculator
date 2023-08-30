@@ -3,6 +3,7 @@ import yaml
 from yaml.loader import SafeLoader
 from gendiff.diff_files.formats.stylish import stringify
 from gendiff.diff_files.formats.plain import get_plain_formater
+from gendiff.diff_files.formats.json import get_json
 from gendiff.diff_files.gener_diff import generate_result
 
 
@@ -23,6 +24,6 @@ def generate_diff(file_path1, file_path2, format_name=stringify):
     elif format_name == 'plain':
         format_name = get_plain_formater
     elif format_name == 'json':
-        format_name = json.dumps
+        format_name = get_json
 
     return format_name(result)
