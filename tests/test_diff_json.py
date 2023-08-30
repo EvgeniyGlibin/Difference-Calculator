@@ -74,14 +74,15 @@ file_path_yaml1 = get_fixture_path('file1.yaml')
 file_path_yaml2 = get_fixture_path('file2.yaml')
 result_stylish = read(get_fixture_path('result_stylish'))
 result_plain = read(get_fixture_path('result_plain'))
+result_json = read(get_fixture_path('result_json'))
 
 
 formats = [
     (file_path_json1, file_path_json2, 'stylish', 0),
     (file_path_json1, file_path_yaml2, 'plain', 1),
-    (file_path_yaml1, file_path_yaml2, 'stylish', 0),
+    (file_path_yaml1, file_path_yaml2, 'json', 2),
 ]
-result_format = [result_stylish, result_plain, result_stylish]
+result_format = [result_stylish, result_plain, result_json]
 
 
 @pytest.mark.parametrize('file_path1, file_path2, format, format_index',
