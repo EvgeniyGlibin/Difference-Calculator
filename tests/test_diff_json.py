@@ -1,6 +1,6 @@
 
-from gendiff.diff_files.stylish import stringify
-from gendiff.diff_files.plain import get_plain_formater
+from gendiff.diff_files.formats.stylish import stringify
+from gendiff.diff_files.formats.plain import get_plain_formater
 from gendiff.diff_generator import generate_diff
 import os
 import pytest
