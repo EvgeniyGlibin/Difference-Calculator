@@ -7,15 +7,24 @@ from gendiff.diff_files.formats.json import get_json
 from gendiff.diff_files.gener_diff import generate_result
 
 
-def generate_diff(file_path1, file_path2, format_name=stringify):
-    if file_path1.endswith('.json'):
-        first_file = json.load(open(file_path1))
-    elif file_path1.endswith((".yaml", ".yml")):
-        first_file = yaml.load(open(file_path1), Loader=SafeLoader)
-    if file_path2.endswith('.json'):
-        second_file = json.load(open(file_path2))
-    elif file_path2.endswith((".yaml", ".yml")):
-        second_file = yaml.load(open(file_path2), Loader=SafeLoader)
+def get_path(data):
+    if data.endswith('.json'):
+        result = json.loads(f"{data}")
+    elif data.endswith((".yaml", ".yml")):
+        result = yaml.load(data, Loader=SafeLoader)
+    return result
+
+
+def read(file_path):
+    with open(file_path, 'r') as f:
+        result = f.read()
+        return result
+
+# https://stackoverflow.com/questions/16573332/jsondecodeerror-expecting-value-line-1-column-1-char-0
+
+def generate_diff(file_path1, file_path2, format_name='stylish'):
+    first_file = read(get_path(file_path1))
+    second_file = read(get_path(file_path2))
 
     result = generate_result(first_file, second_file)
 
