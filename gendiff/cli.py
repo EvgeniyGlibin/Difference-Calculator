@@ -13,8 +13,8 @@ def get_parser():
     )
     parser.add_argument('first_file')
     parser.add_argument('second_file')
-    parser.add_argument('-f', '--format', 
-                        default='stylish', 
+    parser.add_argument('-f', '--format',
+                        default='stylish',
                         choices=['stylish', 'plain', 'json'],
                         help='set format of output')
     args = parser.parse_args()
