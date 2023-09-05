@@ -2,9 +2,6 @@
 
 
 import argparse
-import json
-from gendiff.diff_files.formats.stylish import stringify
-from gendiff.diff_files.formats.plain import get_plain_formater
 
 
 def get_parser():
@@ -18,14 +15,8 @@ def get_parser():
                         choices=['stylish', 'plain', 'json'],
                         help='set format of output')
     args = parser.parse_args()
-    if args.format == 'stylish':
-        format_name = stringify
-    elif args.format == 'plain':
-        format_name = get_plain_formater
-    elif args.format == 'json':
-        format_name = json.dumps
 
-    return args, format_name
+    return args
 
 
 def main():
