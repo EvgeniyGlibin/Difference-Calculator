@@ -4,35 +4,7 @@ from gendiff.diff_files.formats.plain import get_plain_formater
 from gendiff.diff_generator import generate_diff
 import os
 import pytest
-
-
-nested = {
-    "string": "value",
-    "boolean": True,
-    "number": 5,
-    "dict": {
-        5: "number",
-        None: "None",
-        True: "boolean",
-        "value": "string",
-        "nested": {
-            "boolean": True,
-            "string": 'value',
-            "number": 5,
-            None: "None",
-        },
-    },
-}
-
-
-file_diff = {
-    "- follow": "false",
-    "  host": "hexlet.io",
-    "- proxy": "123.234.53.22",
-    "- timeout": 50,
-    "+ timeout": 20,
-    "+ verbose": True,
-}
+import json
 
 
 def get_fixture_path(file_name):
@@ -46,6 +18,7 @@ def read(file_path):
     return result
 
 
+nested = json.loads(read(get_fixture_path('file_nested.json')))
 nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
 
 cases = [
@@ -61,6 +34,7 @@ def test_stringify(replacer, space_count, case_index):
     assert stringify(nested, replacer, space_count) == expected
 
 
+file_diff = json.loads(read(get_fixture_path('file_diff.json')))
 plain_data = read(get_fixture_path('plain'))
 
 
