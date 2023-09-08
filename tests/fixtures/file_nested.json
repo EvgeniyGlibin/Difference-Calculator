@@ -1,0 +1,17 @@
+{
+    "string": "value",
+    "boolean": true,
+    "number": 5,
+    "dict": {
+        "5": "number",
+        "None": "None",
+        "True": "boolean",
+        "value": "string",
+        "nested": {
+            "boolean": true,
+            "string": "value",
+            "number": 5,
+            "None": "None"
+        }
+    }
+}
