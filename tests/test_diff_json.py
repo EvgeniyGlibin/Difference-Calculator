@@ -52,16 +52,17 @@ result_json = read(get_fixture_path('result_json'))
 
 
 formats = [
-    (file_path_json1, file_path_json2, 'stylish', 0),
-    (file_path_json1, file_path_yaml2, 'plain', 1),
-    (file_path_yaml1, file_path_yaml2, 'json', 2),
+    (file_path_json1, file_path_json2, 'stylish', result_stylish),
+    (file_path_yaml1, file_path_yaml2, 'stylish', result_stylish),
+    (file_path_json1, file_path_json2, 'plain', result_plain),
+    (file_path_yaml1, file_path_yaml2, 'plain', result_plain),
+    (file_path_json1, file_path_json2, 'json', result_json),
+    (file_path_yaml1, file_path_yaml2, 'json', result_json),
 ]
-result_format = [result_stylish, result_plain, result_json]
 
 
-@pytest.mark.parametrize('file_path1, file_path2, format, format_index',
+@pytest.mark.parametrize('file_path1, file_path2, format, result_format',
                          formats,
                          )
-def test_generate_diff(file_path1, file_path2, format, format_index):
-    result = result_format[format_index]
-    assert generate_diff(file_path1, file_path2, format) == result
+def test_generate_diff(file_path1, file_path2, format, result_format):
+    assert generate_diff(file_path1, file_path2, format) == result_format
