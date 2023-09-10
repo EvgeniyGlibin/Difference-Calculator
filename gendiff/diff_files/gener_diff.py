@@ -22,3 +22,6 @@ def generate_result(data1, data2):
         return result
 
     return iter_(data1, data2)
+
+# преобразовать создание словаря в виде key:   ,
+# option:[added, change ....], new: ..., old:...
