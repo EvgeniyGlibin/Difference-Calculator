@@ -25,13 +25,17 @@ def read(file_path):
         return result
 
 
-def get_format_files(path):
+def get_file_extension(path):
     return path.split('.')[-1]
 
 
 def generate_diff(file_path1, file_path2, format_name='stylish'):
-    first_file = FILE_FORMAT[get_format_files(file_path1)](read(file_path1))
-    second_file = FILE_FORMAT[get_format_files(file_path2)](read(file_path2))
+    parsed_file_data1 = FILE_FORMAT[get_file_extension(file_path1)](
+        read(file_path1)
+    )
+    parsed_file_data2 = FILE_FORMAT[get_file_extension(file_path2)](
+        read(file_path2)
+    )
 
-    result = generate_result(first_file, second_file)
+    result = generate_result(parsed_file_data1, parsed_file_data2)
     return OUTPUT_FORMAT[format_name](result)
