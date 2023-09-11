@@ -12,37 +12,48 @@ def generate_result(data1, data2):
     def iter_(current_data1, current_data2):
 
         keys = sorted(current_data1.keys() | current_data2.keys())
-        result = {}
+        result = []
         for key in keys:
             if key not in current_data1:
                 # result[f'+ {key}'] = current_data2[key]
-                result['key'] = key
-                result['new_value'] = current_data2[key]
-                result['type_operation'] = 'added'
+                result.append({
+                    'key': key,
+                    'type_operation': 'added',
+                    'new_value': current_data2[key],
+                })
+
             elif key not in current_data2:
                 # result[f'- {key}'] = current_data1[key]
-                result['key'] = key
-                result['old_value'] = current_data1[key]
-                result['type_operation'] = 'remove'
+                result.append({
+                    'key': key,
+                    'type_operation': 'remove',
+                    'old_value': current_data1[key],
+                })
             elif current_data1[key] == current_data2[key]:
                 # result[f'  {key}'] = current_data1[key]
-                result['key'] = key
-                result['old_value'] = current_data1[key]
-                result['type_operation'] = 'unchanged'
+                result.append({
+                    'key': key,
+                    'type_operation': 'unchanged',
+                    'old_value': current_data1[key],
+                })
             elif isinstance(current_data1[key], dict) is True and isinstance(
                     current_data2[key], dict) is True:
                 children = iter_(current_data1[key], current_data2[key])
                 # result[f'  {key}'] = children
-                result['key'] = key
-                result['type_operation'] = 'nested'
-                result['new_value'] = children
+                result.append({
+                    'key': key,
+                    'type_operation': 'nested',
+                    'new_value': children,
+                })
             else:
                 # result[f'- {key}'] = current_data1[key]
                 # result[f'+ {key}'] = current_data2[key]
-                result['key'] = key
-                result['old_value'] = current_data1[key]
-                result['new_value'] = current_data1[key]
-                result['type_operation'] = 'changed'                
+                result.append({
+                    'key': key,
+                    'type_operation': 'changed',
+                    'old_value': current_data1[key],
+                    'new_value': current_data2[key],
+                })
 
         return result
 
