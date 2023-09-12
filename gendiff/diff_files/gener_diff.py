@@ -15,42 +15,36 @@ def generate_result(data1, data2):
         result = []
         for key in keys:
             if key not in current_data1:
-                # result[f'+ {key}'] = current_data2[key]
                 result.append({
                     'key': key,
-                    'type_operation': 'added',
+                    'operation': 'added',
                     'new_value': current_data2[key],
                 })
 
             elif key not in current_data2:
-                # result[f'- {key}'] = current_data1[key]
                 result.append({
                     'key': key,
-                    'type_operation': 'remove',
+                    'operation': 'remove',
                     'old_value': current_data1[key],
                 })
             elif current_data1[key] == current_data2[key]:
-                # result[f'  {key}'] = current_data1[key]
                 result.append({
                     'key': key,
-                    'type_operation': 'unchanged',
+                    'operation': 'unchanged',
                     'old_value': current_data1[key],
                 })
             elif isinstance(current_data1[key], dict) is True and isinstance(
                     current_data2[key], dict) is True:
                 children = iter_(current_data1[key], current_data2[key])
-                # result[f'  {key}'] = children
                 result.append({
                     'key': key,
-                    'type_operation': 'nested',
+                    'operation': 'nested',
                     'new_value': children,
                 })
             else:
-                # result[f'- {key}'] = current_data1[key]
-                # result[f'+ {key}'] = current_data2[key]
                 result.append({
                     'key': key,
-                    'type_operation': 'changed',
+                    'operation': 'changed',
                     'old_value': current_data1[key],
                     'new_value': current_data2[key],
                 })
@@ -60,14 +54,14 @@ def generate_result(data1, data2):
     return iter_(data1, data2)
 
 # преобразовать создание словаря в виде key:   ,
-# type_operation:[added, change ....], new: ..., old:...
+# operation:[added, change ....], new: ..., old:...
 
 
-# path_file1_json = "/home/evgeniy/python-project-50/tests/fixtures/file1.json"
-# path_file2_json = "/home/evgeniy/python-project-50/tests/fixtures/file2.json"
-# first_file = json.loads(read(path_file1_json))
-# second_file = json.loads(read(path_file2_json))
-# x = (generate_result(first_file, second_file))
+path_file1_json = "tests/fixtures/file1.json"
+path_file2_json = "tests/fixtures/file2.json"
+first_file = json.loads(read(path_file1_json))
+second_file = json.loads(read(path_file2_json))
+nested = (generate_result(first_file, second_file))
 
 # print('----------------------------')
 # for i in x:
@@ -75,7 +69,7 @@ def generate_result(data1, data2):
 
 
 data1 = {
-    "follow": False,
+    "follow": "false",
     "host": "hexlet.io",
     "proxy": "123.234.53.22",
     "timeout": 50,
@@ -83,14 +77,16 @@ data1 = {
 
 data2 = {
     "host": 'hexlet.io',
-    "proxy": "123.234.53.45",
-    "timeout": 25,
-    "promt": True
+    "timeout": 20,
+    "verbose": True
 }
 
 gen_diff = generate_result(data1, data2)
-print(gen_diff)
-print('-------------------')
+# print(gen_diff)
+
+# print('-------------------')
+# for dictionary in gen_diff:
+#     print(dictionary)
 # dictionary = gen_diff[0]
 # print(dictionary)
 # for key, val in dictionary.items():
@@ -103,6 +99,7 @@ import json
 def stringify(value, replacer=' ', spaces_count=4):
 
     def iter_(current_value, depth):
+        lines = []
         for dictionary in current_value:
             if not isinstance(dictionary, dict):
                 return str(dictionary)
@@ -110,14 +107,33 @@ def stringify(value, replacer=' ', spaces_count=4):
             deep_indent_size = depth + spaces_count
             deep_indent = replacer * deep_indent_size
             current_indent = replacer * depth
-            lines = []
+            
             key = dictionary['key']
-            val = str(dictionary['old_value'])
-            if dictionary['type_operation'] in ['added', 'remove', 'changed', 'unchanged']:
+            if dictionary['operation'] in ['remove']:
                 deep_indent = replacer * (deep_indent_size - 2)
-                lines.append(f'{deep_indent}{key}: {iter_(val, deep_indent_size)}')
-            result = itertools.chain("{", lines, [current_indent + "}"])
-            return '\n'.join(result)
+                val = str(dictionary['old_value'])
+                lines.append(f'{deep_indent}{"- "}{key}: {val}')
+            elif dictionary['operation'] in ['unchanged']:
+                deep_indent = replacer * (deep_indent_size - 2)
+                val = str(dictionary['old_value'])
+                lines.append(f'{deep_indent}{"  "}{key}: {val}')
+            elif dictionary['operation'] in ['added']:
+                deep_indent = replacer * (deep_indent_size - 2)
+                val = str(dictionary['new_value'])
+                lines.append(f'{deep_indent}{"+ "}{key}: {val}')
+            elif dictionary['operation'] in ['changed']:
+                deep_indent = replacer * (deep_indent_size - 2)
+                old_val = str(dictionary['old_value'])
+                new_val = str(dictionary['new_value'])
+                lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
+                lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')
+            elif dictionary['operation'] in ['nested']:
+                deep_indent = replacer * (deep_indent_size - 2)
+                val = (dictionary['new_value'])
+                lines.append(f'{deep_indent}{"  "}{key}: {iter_(val, deep_indent_size)}')
+
+        result = itertools.chain("{", lines, [current_indent + "}"])
+        return '\n'.join(result)
 
             # for key, val in dictionary.items():
             #     if isinstance(val, NoneType | bool):
@@ -131,5 +147,7 @@ def stringify(value, replacer=' ', spaces_count=4):
     return iter_(value, 0)
 
 
-string = stringify(gen_diff)
-print(string)
+# string = stringify(gen_diff)
+# print(string)
+stylish_nested = stringify(nested)
+print(stylish_nested)
