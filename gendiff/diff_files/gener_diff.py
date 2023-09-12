@@ -62,7 +62,7 @@ path_file2_json = "tests/fixtures/file2.json"
 first_file = json.loads(read(path_file1_json))
 second_file = json.loads(read(path_file2_json))
 nested = (generate_result(first_file, second_file))
-
+print(nested)
 # print('----------------------------')
 # for i in x:
 #     print(i, sep='\n')
