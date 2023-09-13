@@ -109,26 +109,22 @@ def stringify(value, replacer=' ', spaces_count=4):
             current_indent = replacer * depth
             
             key = dictionary['key']
-            if dictionary['operation'] in ['remove']:
+            operation = dictionary['operation']
+            
+            if operation in ['added', 'unchanged', 'changed', 'nested', 'remove']:
                 deep_indent = replacer * (deep_indent_size - 2)
+            if operation in ['remove'] or operation in ['unchanged']:
                 val = str(dictionary['old_value'])
                 lines.append(f'{deep_indent}{"- "}{key}: {val}')
-            elif dictionary['operation'] in ['unchanged']:
-                deep_indent = replacer * (deep_indent_size - 2)
-                val = str(dictionary['old_value'])
-                lines.append(f'{deep_indent}{"  "}{key}: {val}')
-            elif dictionary['operation'] in ['added']:
-                deep_indent = replacer * (deep_indent_size - 2)
+            elif operation in ['added']:
                 val = str(dictionary['new_value'])
                 lines.append(f'{deep_indent}{"+ "}{key}: {val}')
-            elif dictionary['operation'] in ['changed']:
-                deep_indent = replacer * (deep_indent_size - 2)
+            elif operation in ['changed']:
                 old_val = str(dictionary['old_value'])
                 new_val = str(dictionary['new_value'])
                 lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
                 lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')
-            elif dictionary['operation'] in ['nested']:
-                deep_indent = replacer * (deep_indent_size - 2)
+            elif operation in ['nested']:
                 val = (dictionary['new_value'])
                 lines.append(f'{deep_indent}{"  "}{key}: {iter_(val, deep_indent_size)}')
 
