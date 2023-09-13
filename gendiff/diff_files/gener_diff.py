@@ -62,31 +62,31 @@ path_file2_json = "tests/fixtures/file2.json"
 first_file = json.loads(read(path_file1_json))
 second_file = json.loads(read(path_file2_json))
 nested = (generate_result(first_file, second_file))
-# print(nested)
+
 # print('----------------------------')
 # for i in x:
 #     print(i, sep='\n')
 
 
-# data1 = {
-#     "follow": "false",
-#     "host": "hexlet.io",
-#     "proxy": "123.234.53.22",
-#     "timeout": 50,
-#     }
+data1 = {
+    "follow": "false",
+    "host": "hexlet.io",
+    "proxy": "123.234.53.22",
+    "timeout": 50,
+    }
 
-# data2 = {
-#     "host": 'hexlet.io',
-#     "timeout": 20,
-#     "verbose": True
-# }
+data2 = {
+    "host": 'hexlet.io',
+    "timeout": 20,
+    "verbose": True
+}
 
-# gen_diff = generate_result(data1, data2)
+gen_diff = generate_result(data1, data2)
 # print(gen_diff)
 
-# # print('-------------------')
-for dictionary in nested:
-    print(dictionary, end='============\n')
+# print('-------------------')
+# for dictionary in gen_diff:
+#     print(dictionary)
 # dictionary = gen_diff[0]
 # print(dictionary)
 # for key, val in dictionary.items():
@@ -95,47 +95,54 @@ import itertools
 from types import NoneType
 import json
 
+
 def stringify(value, replacer=' ', spaces_count=4):
 
     def iter_(current_value, depth):
         lines = []
-        deep_indent_size = depth + spaces_count
-        deep_indent = replacer * deep_indent_size
-        current_indent = replacer * depth
-        if isinstance(current_value, str):
-                return current_value
-        if isinstance(current_value, NoneType | bool | int):
-                return json.dumps(current_value)
         for dictionary in current_value:
             if not isinstance(dictionary, dict):
                 return str(dictionary)
 
-            if dictionary['operation'] in ['added', 'remove', 'unchanged', 'changed', 'nested']:
-                key = dictionary['key']
+            deep_indent_size = depth + spaces_count
+            deep_indent = replacer * deep_indent_size
+            current_indent = replacer * depth
+            
+            key = dictionary['key']
+            if dictionary['operation'] in ['remove']:
                 deep_indent = replacer * (deep_indent_size - 2)
-            if dictionary['operation'] in ['unchanged']:
-                val = dictionary['old_value']
-                simbol = "  "
+                val = str(dictionary['old_value'])
+                lines.append(f'{deep_indent}{"- "}{key}: {val}')
+            elif dictionary['operation'] in ['unchanged']:
+                deep_indent = replacer * (deep_indent_size - 2)
+                val = str(dictionary['old_value'])
+                lines.append(f'{deep_indent}{"  "}{key}: {val}')
             elif dictionary['operation'] in ['added']:
-                val = dictionary['new_value']
-                simbol = "+ "
-            elif dictionary['operation'] in ['remove']:
-                val = dictionary['old_value']
-                simbol = "- "
+                deep_indent = replacer * (deep_indent_size - 2)
+                val = str(dictionary['new_value'])
+                lines.append(f'{deep_indent}{"+ "}{key}: {val}')
             elif dictionary['operation'] in ['changed']:
-                val = dictionary['old_value']
-                simbol = "- "
-                lines.append(f'{deep_indent}{simbol}{key}: {iter_(val, deep_indent_size)}')
-                val = dictionary['new_value']
-                simbol = "+ "
+                deep_indent = replacer * (deep_indent_size - 2)
+                old_val = str(dictionary['old_value'])
+                new_val = str(dictionary['new_value'])
+                lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
+                lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')
             elif dictionary['operation'] in ['nested']:
-                val = dictionary['new_value']
-                simbol = "  "
-
-            lines.append(f'{deep_indent}{simbol}{key}: {iter_(val, deep_indent_size)}')
+                deep_indent = replacer * (deep_indent_size - 2)
+                val = (dictionary['new_value'])
+                lines.append(f'{deep_indent}{"  "}{key}: {iter_(val, deep_indent_size)}')
 
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
+
+            # for key, val in dictionary.items():
+            #     if isinstance(val, NoneType | bool):
+            #         val = json.dumps(val)
+            #     if str(key)[0] in "+- ":
+            #         deep_indent = replacer * (deep_indent_size - 2)
+            #     lines.append(f'{deep_indent}{key}: {iter_(val, deep_indent_size)}')
+            # result = itertools.chain("{", lines, [current_indent + "}"])
+            # return '\n'.join(result)
 
     return iter_(value, 0)
 
@@ -144,4 +151,3 @@ def stringify(value, replacer=' ', spaces_count=4):
 # print(string)
 stylish_nested = stringify(nested)
 print(stylish_nested)
-
