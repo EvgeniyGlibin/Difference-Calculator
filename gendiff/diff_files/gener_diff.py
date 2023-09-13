@@ -85,8 +85,8 @@ nested = (generate_result(first_file, second_file))
 # print(gen_diff)
 
 # # print('-------------------')
-# for dictionary in nested:
-#     print(dictionary, end='============\n')
+for dictionary in nested:
+    print(dictionary, end='============\n')
 # dictionary = gen_diff[0]
 # print(dictionary)
 # for key, val in dictionary.items():
@@ -104,6 +104,8 @@ def stringify(value, replacer=' ', spaces_count=4):
         current_indent = replacer * depth
         if isinstance(current_value, str):
                 return current_value
+        if isinstance(current_value, NoneType | bool | int):
+                return json.dumps(current_value)
         for dictionary in current_value:
             if not isinstance(dictionary, dict):
                 return str(dictionary)
@@ -112,21 +114,22 @@ def stringify(value, replacer=' ', spaces_count=4):
                 key = dictionary['key']
                 deep_indent = replacer * (deep_indent_size - 2)
             if dictionary['operation'] in ['unchanged']:
-                val = str(dictionary['old_value'])
+                val = dictionary['old_value']
                 simbol = "  "
-            if dictionary['operation'] in ['added']:
-                val = str(dictionary['new_value'])
+            elif dictionary['operation'] in ['added']:
+                val = dictionary['new_value']
                 simbol = "+ "
-
-            if dictionary['operation'] in ['remove'] or dictionary[
-                'operation'] in ['changed']:
-                val = str(dictionary['old_value'])
+            elif dictionary['operation'] in ['remove']:
+                val = dictionary['old_value']
                 simbol = "- "
-            if dictionary['operation'] in ['changed']:
-                val = str(dictionary['new_value'])
+            elif dictionary['operation'] in ['changed']:
+                val = dictionary['old_value']
+                simbol = "- "
+                lines.append(f'{deep_indent}{simbol}{key}: {iter_(val, deep_indent_size)}')
+                val = dictionary['new_value']
                 simbol = "+ "
-            if dictionary['operation'] in ['nested']:
-                val = (dictionary['new_value'])
+            elif dictionary['operation'] in ['nested']:
+                val = dictionary['new_value']
                 simbol = "  "
 
             lines.append(f'{deep_indent}{simbol}{key}: {iter_(val, deep_indent_size)}')
