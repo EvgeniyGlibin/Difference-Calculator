@@ -100,22 +100,23 @@ def stringify(value, replacer=' ', spaces_count=4):
 
     def iter_(current_value, depth):
         lines = []
+        deep_indent_size = depth + spaces_count
+        deep_indent = replacer * deep_indent_size
+        current_indent = replacer * depth
         for dictionary in current_value:
             if not isinstance(dictionary, dict):
                 return str(dictionary)
 
-            deep_indent_size = depth + spaces_count
-            deep_indent = replacer * deep_indent_size
-            current_indent = replacer * depth
-            
             key = dictionary['key']
             operation = dictionary['operation']
-            
             if operation in ['added', 'unchanged', 'changed', 'nested', 'remove']:
                 deep_indent = replacer * (deep_indent_size - 2)
-            if operation in ['remove'] or operation in ['unchanged']:
+            if operation in ['remove']:
                 val = str(dictionary['old_value'])
                 lines.append(f'{deep_indent}{"- "}{key}: {val}')
+            elif operation in ['unchanged']:
+                val = str(dictionary['old_value'])
+                lines.append(f'{deep_indent}{"  "}{key}: {val}')
             elif operation in ['added']:
                 val = str(dictionary['new_value'])
                 lines.append(f'{deep_indent}{"+ "}{key}: {val}')
