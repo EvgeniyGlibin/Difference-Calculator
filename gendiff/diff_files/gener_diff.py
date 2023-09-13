@@ -96,6 +96,18 @@ from types import NoneType
 import json
 
 
+def to_string(value):
+    if isinstance(value, NoneType | bool):
+        return json.dumps(value)
+    if isinstance(value, dict):
+        result = '{'
+        for key, val in value.items():
+            result += f'\n{key}: {to_string(val)}'
+        result += '\n}'
+        return result
+    return str(value)
+
+
 def stringify(value, replacer=' ', spaces_count=4):
 
     def iter_(current_value, depth):
@@ -112,21 +124,21 @@ def stringify(value, replacer=' ', spaces_count=4):
             if operation in ['added', 'unchanged', 'changed', 'nested', 'remove']:
                 deep_indent = replacer * (deep_indent_size - 2)
             if operation in ['remove']:
-                val = str(dictionary['old_value'])
+                val = to_string(dictionary['old_value'])
                 lines.append(f'{deep_indent}{"- "}{key}: {val}')
             elif operation in ['unchanged']:
-                val = str(dictionary['old_value'])
+                val = to_string(dictionary['old_value'])
                 lines.append(f'{deep_indent}{"  "}{key}: {val}')
             elif operation in ['added']:
-                val = str(dictionary['new_value'])
+                val = to_string(dictionary['new_value'])
                 lines.append(f'{deep_indent}{"+ "}{key}: {val}')
             elif operation in ['changed']:
-                old_val = str(dictionary['old_value'])
-                new_val = str(dictionary['new_value'])
+                old_val = to_string(dictionary['old_value'])
+                new_val = to_string(dictionary['new_value'])
                 lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
                 lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')
             elif operation in ['nested']:
-                val = (dictionary['new_value'])
+                val = dictionary['new_value']
                 lines.append(f'{deep_indent}{"  "}{key}: {iter_(val, deep_indent_size)}')
 
         result = itertools.chain("{", lines, [current_indent + "}"])
@@ -148,3 +160,9 @@ def stringify(value, replacer=' ', spaces_count=4):
 # print(string)
 stylish_nested = stringify(nested)
 print(stylish_nested)
+
+
+def to_string(val):
+    if isinstance(val, NoneType | bool):
+        return json.dumps(val)
+    
