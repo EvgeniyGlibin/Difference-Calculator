@@ -101,12 +101,15 @@ def to_string(value, depth, spaces_count):
         return json.dumps(value)
     if isinstance(value, dict):
         replacer = ' '
-        deep_indent_size = depth + spaces_count
-        deep_indent = replacer * deep_indent_size
+        current_depth = depth + spaces_count
+        
+        current_deep_indent = replacer * current_depth
+        previous_deep_indent = replacer * depth
         result = '{'
         for key, val in value.items():
-            result += f'\n{deep_indent}{key}: {to_string(val, deep_indent_size, spaces_count)}'
-        result += '\n}'
+            result += f'\n{current_deep_indent}{key}: {to_string(val, current_depth, spaces_count)}'
+        result += f'\n{previous_deep_indent}'
+        result += '}'
         return result
     return str(value)
 
@@ -163,9 +166,4 @@ def stringify(value, replacer=' ', spaces_count=4):
 # print(string)
 stylish_nested = stringify(nested)
 print(stylish_nested)
-
-
-def to_string(val):
-    if isinstance(val, NoneType | bool):
-        return json.dumps(val)
     
