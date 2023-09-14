@@ -96,13 +96,16 @@ from types import NoneType
 import json
 
 
-def to_string(value):
+def to_string(value, depth, spaces_count):
     if isinstance(value, NoneType | bool):
         return json.dumps(value)
     if isinstance(value, dict):
+        replacer = ' '
+        deep_indent_size = depth + spaces_count
+        deep_indent = replacer * deep_indent_size
         result = '{'
         for key, val in value.items():
-            result += f'\n{key}: {to_string(val)}'
+            result += f'\n{deep_indent}{key}: {to_string(val, deep_indent_size, spaces_count)}'
         result += '\n}'
         return result
     return str(value)
@@ -124,17 +127,17 @@ def stringify(value, replacer=' ', spaces_count=4):
             if operation in ['added', 'unchanged', 'changed', 'nested', 'remove']:
                 deep_indent = replacer * (deep_indent_size - 2)
             if operation in ['remove']:
-                val = to_string(dictionary['old_value'])
+                val = to_string(dictionary['old_value'], deep_indent_size, spaces_count)
                 lines.append(f'{deep_indent}{"- "}{key}: {val}')
             elif operation in ['unchanged']:
-                val = to_string(dictionary['old_value'])
+                val = to_string(dictionary['old_value'], deep_indent_size, spaces_count)
                 lines.append(f'{deep_indent}{"  "}{key}: {val}')
             elif operation in ['added']:
-                val = to_string(dictionary['new_value'])
+                val = to_string(dictionary['new_value'], deep_indent_size, spaces_count)
                 lines.append(f'{deep_indent}{"+ "}{key}: {val}')
             elif operation in ['changed']:
-                old_val = to_string(dictionary['old_value'])
-                new_val = to_string(dictionary['new_value'])
+                old_val = to_string(dictionary['old_value'], deep_indent_size, spaces_count)
+                new_val = to_string(dictionary['new_value'], deep_indent_size, spaces_count)
                 lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
                 lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')
             elif operation in ['nested']:
