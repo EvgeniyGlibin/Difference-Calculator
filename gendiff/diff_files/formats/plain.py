@@ -31,7 +31,7 @@ def get_plain_formater(value):
                 formatted_val = format_the_value(dictionary['old_value'])
                 formatted_val2 = format_the_value(dictionary['new_value'])
                 lines.append(f"Property '{path + dictionary['key']}'"
-                             f" was update. From {formatted_val}"
+                             f" was updated. From {formatted_val}"
                              f" to {formatted_val2}")
         result = itertools.chain(lines)
         return '\n'.join(result)
