@@ -30,7 +30,6 @@ def stringify(value, replacer=' ', spaces_count=4):
         for dictionary in current_value:
             if not isinstance(dictionary, dict):
                 return str(dictionary)
-
             key = dictionary['key']
             operation = dictionary['operation']
             if operation in ['added', 'unchanged', 'changed', 'nested', 'remove']:
