@@ -17,25 +17,22 @@ def get_plain_formater(value):
 
     def iter_(current_value, path):
         lines = []
-        keys = current_value.keys()
-        for key, val in current_value.items():
-            key = str(key)
-            formatted_val = format_the_value(val)
-            if key.startswith('  ') and isinstance(
-                    val, dict) is True:
-                new_path = path + key[2:] + "."
-                lines.append(iter_(val, new_path))
-            elif key.startswith('+ ') and '- ' + key[2:] not in keys:
-                lines.append(f"Property '{path + key[2:]}'"
+        for dictionary in current_value:
+            if dictionary['operation'] in ['nested']: 
+                new_path = path + dictionary['key'] + "."
+                lines.append(iter_(dictionary['new_value'], new_path))
+            elif dictionary['operation'] in ['added']:
+                formatted_val = format_the_value(dictionary['new_value'])
+                lines.append(f"Property '{path + dictionary['key']}'"
                              f" was added with value: {formatted_val}")
-            elif key.startswith('- ') and '+ ' + key[2:] not in keys:
-                lines.append(f"Property '{path + key[2:]}' was removed")
-            elif key.startswith('- ') and '+ ' + key[2:] in keys:
-                formatted_val2 = format_the_value(current_value['+ ' + key[2:]])
-                lines.append(f"Property '{path + key[2:]}' was updated."
-                             f" From {formatted_val}"
+            elif dictionary['operation'] in ['remove']:
+                lines.append(f"Property '{path + dictionary['key']}' was removed")
+            elif dictionary['operation'] in ['changed']:
+                formatted_val = format_the_value(dictionary['old_value'])
+                formatted_val2 = format_the_value(dictionary['new_value'])
+                lines.append(f"Property '{path + dictionary['key']}'"
+                             f" was update. From {formatted_val}"
                              f" to {formatted_val2}")
-
         result = itertools.chain(lines)
         return '\n'.join(result)
 
