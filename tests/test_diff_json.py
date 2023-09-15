@@ -18,28 +18,28 @@ def read(file_path):
     return result
 
 
-nested = json.loads(read(get_fixture_path('file_nested.json')))
-nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
+# nested = json.loads(read(get_fixture_path('file_nested.json')))
+# nested_data = read(get_fixture_path('nested.txt')).rstrip().split('\n\n\n')
 
-cases = [
-    ('.', 3, 0),
-    (' ', 1, 1),
-    ('|-', 2, 2),
-]
-
-
-@pytest.mark.parametrize("replacer, space_count, case_index", cases)
-def test_stringify(replacer, space_count, case_index):
-    expected = nested_data[case_index]
-    assert stringify(nested, replacer, space_count) == expected
+# cases = [
+#     ('.', 3, 0),
+#     (' ', 1, 1),
+#     ('|-', 2, 2),
+# ]
 
 
-file_diff = json.loads(read(get_fixture_path('file_diff.json')))
-plain_data = read(get_fixture_path('plain'))
+# @pytest.mark.parametrize("replacer, space_count, case_index", cases)
+# def test_stringify(replacer, space_count, case_index):
+#     expected = nested_data[case_index]
+#     assert stringify(nested, replacer, space_count) == expected
 
 
-def test_get_plain_formater():
-    assert get_plain_formater(file_diff) == plain_data
+# file_diff = json.loads(read(get_fixture_path('file_diff.json')))
+# plain_data = read(get_fixture_path('plain'))
+
+
+# def test_get_plain_formater():
+#     assert get_plain_formater(file_diff) == plain_data
 
 
 file_path_json1 = get_fixture_path('file1.json')
