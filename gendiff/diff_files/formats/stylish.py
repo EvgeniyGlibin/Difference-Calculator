@@ -13,8 +13,8 @@ def to_string(value, depth, spaces_count):
         previous_deep_indent = replacer * depth
         result = '{'
         for key, val in value.items():
-            result += f'\n{current_deep_indent}{key}: '
-            f'{to_string(val, current_depth, spaces_count)}'
+            result += f'\n{current_deep_indent}{key}:'
+            result += f' {to_string(val, current_depth, spaces_count)}'
         result += f'\n{previous_deep_indent}'
         result += '}'
         return result
@@ -59,7 +59,7 @@ def stringify(value, replacer=' ', spaces_count=4):
                     dictionary['new_value'], deep_indent_size, spaces_count
                 )
                 lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
-                lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')
+                lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')  # коммит
             elif operation in ['nested']:
                 val = dictionary['new_value']
                 lines.append(f'{deep_indent}{"  "}{key}: '
