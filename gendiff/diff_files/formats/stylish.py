@@ -3,6 +3,14 @@ from types import NoneType
 import json
 
 
+SYMBOL = {
+    "remove": "- ",
+    "added": "+ ",
+    "unchanged": "  ",
+    "nested": "  ",
+}
+
+
 def to_string(value, depth, spaces_count):
     if isinstance(value, NoneType | bool):
         return json.dumps(value)
@@ -40,17 +48,17 @@ def stringify(value, replacer=' ', spaces_count=4):
                 val = to_string(
                     dictionary['old_value'], deep_indent_size, spaces_count
                 )
-                lines.append(f'{deep_indent}{"- "}{key}: {val}')
+                lines.append(f'{deep_indent}{SYMBOL[operation]}{key}: {val}')
             elif operation in ['unchanged']:
                 val = to_string(
                     dictionary['old_value'], deep_indent_size, spaces_count
                 )
-                lines.append(f'{deep_indent}{"  "}{key}: {val}')
+                lines.append(f'{deep_indent}{SYMBOL[operation]}{key}: {val}')
             elif operation in ['added']:
                 val = to_string(
                     dictionary['new_value'], deep_indent_size, spaces_count
                 )
-                lines.append(f'{deep_indent}{"+ "}{key}: {val}')
+                lines.append(f'{deep_indent}{SYMBOL[operation]}{key}: {val}')
             elif operation in ['changed']:
                 old_val = to_string(
                     dictionary['old_value'], deep_indent_size, spaces_count
@@ -58,11 +66,11 @@ def stringify(value, replacer=' ', spaces_count=4):
                 new_val = to_string(
                     dictionary['new_value'], deep_indent_size, spaces_count
                 )
-                lines.append(f'{deep_indent}{"- "}{key}: {old_val}')
-                lines.append(f'{deep_indent}{"+ "}{key}: {new_val}')  # коммит
+                lines.append(f'{deep_indent}{SYMBOL["remove"]}{key}: {old_val}')
+                lines.append(f'{deep_indent}{SYMBOL["added"]}{key}: {new_val}')
             elif operation in ['nested']:
                 val = dictionary['new_value']
-                lines.append(f'{deep_indent}{"  "}{key}: '
+                lines.append(f'{deep_indent}{SYMBOL[operation]}{key}: '
                              f'{iter_(val, deep_indent_size)}')
 
         result = itertools.chain("{", lines, [current_indent + "}"])
