@@ -3,7 +3,7 @@ import yaml
 from gendiff.diff_files.formats.stylish import stringify
 from gendiff.diff_files.formats.plain import get_plain_formater
 from gendiff.diff_files.formats.json import get_json
-from gendiff.diff_files.gener_diff import generate_result
+from gendiff.diff_files.difference_tree import generate_result
 
 
 FILE_FORMAT = {
