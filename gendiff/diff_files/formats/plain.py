@@ -18,17 +18,17 @@ def get_plain_formater(value):
     def iter_(current_value, path):
         lines = []
         for dictionary in current_value:
-            if dictionary['operation'] in ['nested']:
+            if dictionary['operation'] == 'nested':
                 new_path = path + dictionary['key'] + "."
                 lines.append(iter_(dictionary['new_value'], new_path))
-            elif dictionary['operation'] in ['added']:
+            elif dictionary['operation'] == 'added':
                 formatted_val = format_the_value(dictionary['new_value'])
                 lines.append(f"Property '{path + dictionary['key']}'"
                              f" was added with value: {formatted_val}")
-            elif dictionary['operation'] in ['removed']:
+            elif dictionary['operation'] == 'removed':
                 lines.append(f"Property '{path + dictionary['key']}'"
                              f" was removed")
-            elif dictionary['operation'] in ['changed']:
+            elif dictionary['operation'] == 'changed':
                 formatted_val = format_the_value(dictionary['old_value'])
                 formatted_val2 = format_the_value(dictionary['new_value'])
                 lines.append(f"Property '{path + dictionary['key']}'"
