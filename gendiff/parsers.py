@@ -1,8 +1,8 @@
 import json
 import yaml
-from gendiff.diff_files.formats.stylish import stringify
-from gendiff.diff_files.formats.plain import get_plain_formater
-from gendiff.diff_files.formats.json import get_json
+from gendiff.diff_files.formats.stylish import get_stylish_format
+from gendiff.diff_files.formats.plain import get_plain_format
+from gendiff.diff_files.formats.json import get_json_format
 from gendiff.diff_files.difference_tree import get_diff_tree
 
 
@@ -13,9 +13,9 @@ FILE_FORMAT = {
 }
 
 OUTPUT_FORMAT = {
-    "stylish": stringify,
-    "plain": get_plain_formater,
-    "json": get_json,
+    "stylish": get_stylish_format,
+    "plain": get_plain_format,
+    "json": get_json_format,
 }
 
 

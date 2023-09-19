@@ -29,14 +29,14 @@ def to_string(value, depth, spaces_count):
     return str(value)
 
 
-def stringify(value, replacer=' ', spaces_count=4):
+def get_stylish_format(tree, replacer=' ', spaces_count=4):
 
-    def iter_(current_value, depth):
+    def iter_(tree_branch, depth):
         lines = []
         deep_indent_size = depth + spaces_count
         deep_indent = replacer * deep_indent_size
         current_indent = replacer * depth
-        for dictionary in current_value:
+        for dictionary in tree_branch:
             if not isinstance(dictionary, dict):
                 return str(dictionary)
             key = dictionary['key']
@@ -78,4 +78,4 @@ def stringify(value, replacer=' ', spaces_count=4):
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
 
-    return iter_(value, 0)
+    return iter_(tree, 0)

@@ -13,11 +13,11 @@ def format_the_value(value):
     return value
 
 
-def get_plain_formater(value):
+def get_plain_format(tree):
 
-    def iter_(current_value, path):
+    def iter_(tree_branch, path):
         lines = []
-        for dictionary in current_value:
+        for dictionary in tree_branch:
             if dictionary['operation'] == 'nested':
                 new_path = path + dictionary['key'] + "."
                 lines.append(iter_(dictionary['new_value'], new_path))
@@ -37,4 +37,4 @@ def get_plain_formater(value):
         result = itertools.chain(lines)
         return '\n'.join(result)
 
-    return iter_(value, '')
+    return iter_(tree, '')
