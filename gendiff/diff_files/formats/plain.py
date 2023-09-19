@@ -25,7 +25,7 @@ def get_plain_formater(value):
                 formatted_val = format_the_value(dictionary['new_value'])
                 lines.append(f"Property '{path + dictionary['key']}'"
                              f" was added with value: {formatted_val}")
-            elif dictionary['operation'] in ['remove']:
+            elif dictionary['operation'] in ['removed']:
                 lines.append(f"Property '{path + dictionary['key']}'"
                              f" was removed")
             elif dictionary['operation'] in ['changed']:

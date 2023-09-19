@@ -4,7 +4,7 @@ import json
 
 
 SYMBOL = {
-    "remove": "- ",
+    "removed": "- ",
     "added": "+ ",
     "unchanged": "  ",
     "nested": "  ",
@@ -42,9 +42,9 @@ def stringify(value, replacer=' ', spaces_count=4):
             key = dictionary['key']
             operation = dictionary['operation']
             if operation in ['added', 'unchanged',
-                             'changed', 'nested', 'remove']:
+                             'changed', 'nested', 'removed']:
                 deep_indent = replacer * (deep_indent_size - 2)
-            if operation in ['remove']:
+            if operation in ['removed']:
                 val = to_string(
                     dictionary['old_value'], deep_indent_size, spaces_count
                 )
@@ -66,8 +66,10 @@ def stringify(value, replacer=' ', spaces_count=4):
                 new_val = to_string(
                     dictionary['new_value'], deep_indent_size, spaces_count
                 )
-                lines.append(f'{deep_indent}{SYMBOL["remove"]}{key}: {old_val}')
-                lines.append(f'{deep_indent}{SYMBOL["added"]}{key}: {new_val}')
+                lines.append(
+                    f'{deep_indent}{SYMBOL["removed"]}{key}: {old_val}')
+                lines.append(
+                    f'{deep_indent}{SYMBOL["added"]}{key}: {new_val}')
             elif operation in ['nested']:
                 val = dictionary['new_value']
                 lines.append(f'{deep_indent}{SYMBOL[operation]}{key}: '
