@@ -24,8 +24,8 @@ def get_diff_tree(data1, data2):
                     'operation': 'unchanged',
                     'old_value': current_data1[key],
                 })
-            elif isinstance(current_data1[key], dict) is True and isinstance(
-                    current_data2[key], dict) is True:
+            elif isinstance(current_data1[key], dict) and isinstance(
+                    current_data2[key], dict):
                 children = iter_(current_data1[key], current_data2[key])
                 result.append({
                     'key': key,
