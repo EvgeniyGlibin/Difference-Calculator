@@ -1,4 +1,4 @@
-def generate_result(data1, data2):
+def get_diff_tree(data1, data2):
 
     def iter_(current_data1, current_data2):
 
@@ -15,7 +15,7 @@ def generate_result(data1, data2):
             elif key not in current_data2:
                 result.append({
                     'key': key,
-                    'operation': 'remove',
+                    'operation': 'removed',
                     'old_value': current_data1[key],
                 })
             elif current_data1[key] == current_data2[key]:

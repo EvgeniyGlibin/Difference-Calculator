@@ -3,7 +3,7 @@ import yaml
 from gendiff.diff_files.formats.stylish import stringify
 from gendiff.diff_files.formats.plain import get_plain_formater
 from gendiff.diff_files.formats.json import get_json
-from gendiff.diff_files.difference_tree import generate_result
+from gendiff.diff_files.difference_tree import get_diff_tree
 
 
 FILE_FORMAT = {
@@ -37,5 +37,5 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
         read(file_path2)
     )
 
-    result = generate_result(parsed_file_data1, parsed_file_data2)
+    result = get_diff_tree(parsed_file_data1, parsed_file_data2)
     return OUTPUT_FORMAT[format_name](result)
