@@ -5,7 +5,7 @@
 Форматы результата сравнения: <b>stylish, plain</b> или <b>json</b>.<br>
 
 Для установки бибилиотеки необходимо ввести значение в командную строку:<br>
-<p><code>python3 -m pip install --user git+https://github.com/EvgeniyGlibin/python-project-50.git</code></p>
+<p><code>python3 -m pip install --user git+https://github.com/EvgeniyGlibin/Difference-Calculator.git</code></p>
 
 Для получения информации по работе с библиотекой необходимо ввести команду <code>gendiff --help(-h)</code>
 
